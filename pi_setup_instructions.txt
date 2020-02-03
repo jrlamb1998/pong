@@ -1,0 +1,9 @@
+1. load latest raspbian light.
+	diskutil unmountDisk /dev/diskN
+	sudo dd bs=1m if=path_of_your_image.img of=/dev/rdiskN conv=sync
+	sudo diskutil eject /dev/rdiskN
+2. raspberry-config
+	connectivity>ssh enabled
+	boot options > auto login shell
+3. 
+sudo apt-get install fswebcam

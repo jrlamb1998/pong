@@ -1,0 +1,14 @@
+Get started for the first time:
+	>git clone <repository url>
+   - this creates a folder containing the entire repository
+
+When you start working:
+	>git pull
+   - this gives you the most up-to-date versions
+
+When you want to save your changes:
+	>git add <filename>
+   - lets git know that you either made a new file or modified an existing file
+	>git commit -m 'some notes about your changes'
+	>git push
+
