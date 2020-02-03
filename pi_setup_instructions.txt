@@ -5,5 +5,9 @@
 2. raspberry-config
 	connectivity>ssh enabled
 	boot options > auto login shell
-3. 
-sudo apt-get install fswebcam
+3. ?
+	sudo apt-get install fswebcam
+4. install git 
+	sudo apt-get install git
+5. git clone 
+	https://github.com/jrlamb1998/pong.git
