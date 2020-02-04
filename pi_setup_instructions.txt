@@ -5,9 +5,20 @@
 2. raspberry-config
 	connectivity>ssh enabled
 	boot options > auto login shell
+	enable camera
 3. ?
 	sudo apt-get install fswebcam
 4. install git 
 	sudo apt-get install git
 5. git clone 
 	https://github.com/jrlamb1998/pong.git
+6. Install openCV
+	pip3 install opencv-python; sudo apt-get install -y libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev  libqtgui4  libqt4-test
+	sudo apt-get install -y libilmbase-dev libopenexr-dev libgstreamer1.0-dev libavcodec-dev libavformat-dev libswscale-dev libwebp-dev
+  edit .bashrc, add the line:
+	export LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1
+  and run:
+	source .bashrc
+
+7. Camera python
+	pip3 install "picamera[array]"
