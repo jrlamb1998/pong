@@ -1,3 +1,6 @@
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io, color, morphology, measure
@@ -29,8 +32,31 @@ def label_ball(image):
             maxi = i
     center = np.array([int(0.5*(props[maxi].bbox[2]+props[i].bbox[0])),int(0.5*(props[maxi].bbox[3]+props[i].bbox[1]))])
     return center
-        
-image = io.imread('stock_ball.jpeg')
-pink = filter_pink(image)
-no_noise = filter_noise(pink)
-center = label_ball(no_noise)
+
+
+#### code taken from https://www.pyimagesearch.com/2015/03/30/accessing-the-raspberry-pi-camera-with-opencv-and-python/ ####
+# initialize the camera and grab a reference to the raw camera capture
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+ 
+# allow the camera to warmup
+time.sleep(0.1)
+ 
+# capture frames from the camera
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# grab the raw NumPy array representing the image, then initialize the timestamp
+	# and occupied/unoccupied text
+	image = frame.array
+
+	# if the `q` key was pressed, break from the loop
+	if key == ord("q"):
+		break
+
+	pink = filter_pink(image)
+	no_noise = filter_noise(pink)
+	center = label_ball(no_noise)
+
+	# clear the stream, for the next frame
+	rawCapture.truncate(0)
