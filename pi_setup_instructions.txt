@@ -12,7 +12,7 @@
 	sudo apt-get install git
 5. git clone 
 	https://github.com/jrlamb1998/pong.git
-6. Install openCV
+6. Install openCV? Might not need this step
 	pip3 install opencv-python; sudo apt-get install -y libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev  libqtgui4  libqt4-test
 	sudo apt-get install -y libilmbase-dev libopenexr-dev libgstreamer1.0-dev libavcodec-dev libavformat-dev libswscale-dev libwebp-dev
   edit .bashrc, add the line:
@@ -22,3 +22,8 @@
 
 7. Camera python
 	pip3 install "picamera[array]"
+
+8. 	install scipy:
+	sudo apt install gfortran
+	pip3 install scikit-image --no-cache-dir
+
