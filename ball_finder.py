@@ -3,9 +3,11 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 import cv2
+import imutils
+import numpy as np
 
-pinkLower = (290,100,10)
-pinkUpper = (350,255,255)
+pinkLower = (160,50,10)
+pinkUpper = (250,255,255)
 
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
@@ -19,16 +21,22 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # grab the raw NumPy array representing the image, then initialize the timestamp
     # and occupied/unoccupied text
     image = frame.array
-    
     ################################ FRAME PROCESSING ################
     
-    blurred = cv2.GaussianBlur(frame, (11, 11), 0)
-    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
-    # construct a mask for the color "green", then perform	# a series of dilations and erosions to remove any small
+#    blurred = cv2.GaussianBlur(image, (11, 11), 0)
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+#    print(hsv[:,:,0])
+#    cv2.imwrite('just_h.png',hsv[:,:,0])
+#    cv2.imwrite('just_s.png',hsv[:,:,1])
+#    cv2.imwrite('just_v.png',hsv[:,:,2])
+    # construct a mask for the color "pink", then perform a series of dilations and erosions to remove any small
     # blobs left in the mask
     mask = cv2.inRange(hsv, pinkLower, pinkUpper)
-    mask = cv2.erode(mask, None, iterations=2)
-    mask = cv2.dilate(mask, None, iterations=2)
+#    cv2.imwrite('pink_filter.png',mask)
+    mask = cv2.erode(mask, None, iterations=1)
+#    cv2.imwrite('erode_filter.png',mask)
+    mask = cv2.dilate(mask, None, iterations=1)
+#    cv2.imwrite('dilate_filter.png',mask)
     
     # find contours in the mask and initialize the current
     # (x, y) center of the ball

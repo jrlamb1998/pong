@@ -22,6 +22,7 @@
 
 7. Camera python
 	pip3 install "picamera[array]"
+	pip3 install imutils
 
 8. 	install scipy:
 	sudo apt install gfortran
