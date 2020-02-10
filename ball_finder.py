@@ -6,8 +6,13 @@ import cv2
 import imutils
 import numpy as np
 
-pinkLower = (160,50,10)
-pinkUpper = (250,255,255)
+
+# define color range for the ball
+pinkLower = (142,100,80)
+pinkUpper = (175,255,255)
+
+debug = 0  #debug means save all intermediate outputs
+center = None
 
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
@@ -17,32 +22,34 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 # allow the camera to warmup
 time.sleep(0.1)
 # capture frames from the camera
+i = 0
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # grab the raw NumPy array representing the image, then initialize the timestamp
     # and occupied/unoccupied text
     image = frame.array
+#    image = cv2.resize(image, (320,480), interpolation = cv2.INTER_AREA)
+    if debug:
+        cv2.imwrite('color_pic.png',image)
     ################################ FRAME PROCESSING ################
-    
-#    blurred = cv2.GaussianBlur(image, (11, 11), 0)
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-#    print(hsv[:,:,0])
-#    cv2.imwrite('just_h.png',hsv[:,:,0])
-#    cv2.imwrite('just_s.png',hsv[:,:,1])
-#    cv2.imwrite('just_v.png',hsv[:,:,2])
+    if debug:
+        cv2.imwrite('just_h.png',hsv[:,:,0])
+        cv2.imwrite('just_s.png',hsv[:,:,1])
+        cv2.imwrite('just_v.png',hsv[:,:,2])
     # construct a mask for the color "pink", then perform a series of dilations and erosions to remove any small
     # blobs left in the mask
     mask = cv2.inRange(hsv, pinkLower, pinkUpper)
-#    cv2.imwrite('pink_filter.png',mask)
-    mask = cv2.erode(mask, None, iterations=1)
+    if debug:
+        cv2.imwrite('pink_filter.png',mask)
+#    mask = cv2.erode(mask, None, iterations=1)
 #    cv2.imwrite('erode_filter.png',mask)
-    mask = cv2.dilate(mask, None, iterations=1)
+#    mask = cv2.dilate(mask, None, iterations=1)
 #    cv2.imwrite('dilate_filter.png',mask)
     
     # find contours in the mask and initialize the current
     # (x, y) center of the ball
     cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
-    center = None
     
     # only proceed if at least one contour was found
     if len(cnts) > 0:
@@ -52,9 +59,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         c = max(cnts, key=cv2.contourArea)
         ((x, y), radius) = cv2.minEnclosingCircle(c)
         M = cv2.moments(c)
-        center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-    print(center)
-    
+        try:
+            center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        except:
+            pass
+    print(i,' ',center)
+    i+=1
     ############################ END PROCESSING #####################
     
     
