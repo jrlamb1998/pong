@@ -6,15 +6,21 @@
 	connectivity>ssh enabled
 	boot options > auto login shell
 	enable camera
-4. install git 
+3. install git 
 	sudo apt-get install git
+4. install zshell
+	sudo apt-get install curl, zsh
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 5. git clone 
 	https://github.com/jrlamb1998/pong.git
 6. Install openCV
 	pip3 install opencv-python
   if you get problems with openCV later, try installing these other dependencies and modifying .bashrc
-	sudo apt-get install -y libcblas-dev libhdf5-dev libhdf5-serial-dev libatlas-base-dev libjasper-dev  libqtgui4  libqt4-test
-	sudo apt-get install -y libilmbase-dev libopenexr-dev libgstreamer1.0-dev libavcodec-dev libavformat-dev libswscale-dev libwebp-dev
+	sudo apt-get install libatlas-base-dev
+	sudo apt-get install libjasper-dev
+	sudo apt-get install libqtgui4
+	sudo apt-get install python3-pyqt5
+	sudo apt-get install libqt4-test
   edit .bashrc, from home directory do 
 	nano .bashrc
   and add the line
