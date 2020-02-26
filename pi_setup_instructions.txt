@@ -27,13 +27,14 @@
 	export LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1
   and from the home directory run:
 	source .bashrc
-7. install other python packages. I forget what they are but you probably need stuff like numpy, pandas, wheel, idk what else. Just do whatever it prompts you to do and use pip3
 
 7. Camera python
 	pip3 install "picamera[array]"
 	pip3 install imutils
-
-8. 	install scipy (not sure if you actually need to do this step, try running the program and see if it works):
+8.install scipy (not sure if you actually need to do this step, try running the program and see if it works):
 	sudo apt install gfortran
 	pip3 install scikit-image --no-cache-dir
 
+9. Set up git profile
+	git config --global user.name [your git username here]
+	git config --global user.email [your email address]
