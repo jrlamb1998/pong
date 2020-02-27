@@ -6,6 +6,13 @@
 	connectivity>ssh enabled
 	boot options > auto login shell
 	enable camera
+2a. setup ssh on your computer.
+	Change your settings to allow network sharing over ethernet. For mac, this is in settings>sharing.
+   Plug in pi over ethernet and run (on your computer)
+	ping raspberrypi.local
+   use that IP adress to run (on your computer):
+	ssh pi@[ip address]
+   enter password and you are now connected to the pi
 3. install git 
 	sudo apt-get install git
 4. install zshell
