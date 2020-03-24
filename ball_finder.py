@@ -6,6 +6,10 @@ import cv2
 import imutils
 import numpy as np
 
+# define initial positions for ball tracking
+[x_old,y_old] = [0,0]
+[x_new,y_new] = [0,0]
+[dx,dy]= [0,0]
 
 # define color range for the ball
 pinkLower = (142,100,80)
@@ -63,9 +67,26 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
         except:
             pass
-    print(i,' ',center)
+    #print(i,' ',center)
     i+=1
     ############################ END PROCESSING #####################
+    ############ BALL PREDICTION #########################
+    grid = np.zeros([640,480])
+    [x_old,y_old] = [x_new,y_new]
+    [x_new,y_new]= center
+    [dx,dy] = [x_new-x_old,y_new-y_old]
+    
+    while (x_new <640) and (x_new >0) and (dx*dy != 0):
+        if y_new < 0:
+            y_new = -y_new
+            dy = -dy
+        if y_new > 99:
+            y_new = 99-(y_new-99)
+            dy = -dy
+        grid[x_new,y_new] = 1
+        [x_old,y_old] = [x_new,y_new]
+        [x_new,y_new] = [x_old+dx,y_old+dy]
+    print(y_new)
     
     
     key = cv2.waitKey(1) & 0xFF
