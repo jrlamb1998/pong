@@ -1,3 +1,4 @@
+//this program sends the stepper 200 pulses and changes the rotation direction
 const int stepPin = 5; 
 const int dirPin = 2; 
 const int enPin = 8;
