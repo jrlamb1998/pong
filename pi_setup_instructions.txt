@@ -38,9 +38,10 @@
 7. Camera python
 	pip3 install "picamera[array]"
 	pip3 install imutils
-8.install scipy (not sure if you actually need to do this step, try running the program and see if it works):
-	sudo apt install gfortran
-	pip3 install scikit-image --no-cache-dir
+
+8.install pypar and pigpio
+	sudo apt-get install pigpio python-pigpio python3-pigpio
+   pypar: download and install from https://code.google.com/archive/p/pypar/downloads
 
 9. Set up git profile
 	git config --global user.name [your git username here]
