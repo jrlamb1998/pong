@@ -128,14 +128,16 @@ if rank == 1:
             pi.write(stepPin,1)
             time.sleep(0.5/speed)
             pi.write(stepPin,0)
-
             time.sleep(0.5/speed)
+
+            position += 1
         if position < target:
             pi.write(dirPin,0)
             pi.write(enPin,0)
             pi.write(stepPin,1)
             time.sleep(0.5/speed)
             pi.write(stepPin,0)
+            position -= 1
         else:
             time.sleep(1/speed)
         
