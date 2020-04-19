@@ -175,7 +175,7 @@ pulley radius = 14 mm
         delta_u = k1*e1 + k2*e2 + k3*e3
         u = u+delta_u
 
-        if u>=0 and u<u_max:
+        if u>=0 and u<=u_max:
             dir = 0
         elif u<0 and u>=u_min:
             u = -u
@@ -190,6 +190,6 @@ pulley radius = 14 mm
         IO.output(dir_1, dir)
         pwm_1.ChangeDutyCycle(u)
 
-        time.sleep(.01) #PID algorithm will run at approximately 10
+        time.sleep(.01) #PID algorithm will run at approximately 10 ms
 
 pp.finalize() #close paralell processes
