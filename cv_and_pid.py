@@ -8,7 +8,7 @@ import imutils
 import numpy as np
 
 #motor control libraries
-import LS3766R
+import LS7366R
 import RPi.GPIO as IO
 
 
