@@ -18,14 +18,14 @@ if rank == 0:
     [x_old,y_old] = [0,0]
     [x_new,y_new] = [0,0]
     [dx,dy]= [0,0]
-    
+
     # define color range for the ball
     pinkLower = (142,100,80)
     pinkUpper = (175,255,255)
-    
+
     debug = 0  #debug means save all intermediate outputs
     center = None
-    
+
     # initialize the camera and grab a reference to the raw camera capture
     camera = PiCamera()
     camera.resolution = (640, 480)
@@ -57,12 +57,12 @@ if rank == 0:
     #    cv2.imwrite('erode_filter.png',mask)
     #    mask = cv2.dilate(mask, None, iterations=1)
     #    cv2.imwrite('dilate_filter.png',mask)
-        
+
         # find contours in the mask and initialize the current
         # (x, y) center of the ball
         cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cnts = imutils.grab_contours(cnts)
-        
+
         # only proceed if at least one contour was found
         if len(cnts) > 0:
             # find the largest contour in the mask, then use
@@ -83,7 +83,7 @@ if rank == 0:
         [x_old,y_old] = [x_new,y_new]
         [x_new,y_new]= center
         [dx,dy] = [x_new-x_old,y_new-y_old]
-        
+
         while (x_new <640) and (x_new >0) and (dx*dy != 0):
             if y_new < 0:
                 y_new = -y_new
@@ -96,8 +96,8 @@ if rank == 0:
             [x_new,y_new] = [x_old+dx,y_old+dy]
         print(y_new)
         pp.send(y_new, destination=1) #send target to stepper process
-        
-        
+
+
         key = cv2.waitKey(1) & 0xFF
         # clear the stream in preparation for the next frame
         rawCapture.truncate(0)
@@ -107,21 +107,21 @@ if rank == 0:
 
 ###################STEPPER MOTOR LOOP#############
 if rank == 1:
-    
+
     #setup raspberry pi GPIO pins
     stepPin = 5
     dirPin = 2
     enPin = 8
-    
+
     pi = pigpio.pi()
     pi.set_mode(stepPin, pigpio.OUTPUT)
     pi.set_mode(dirPin, pigpio.OUTPUT)
     pi.set_mode(enPin, pigpio.OUTPUT)
-    
+
     position = 0
     speed = 1000
-    while 1:        
-        target = pp.receive(source=0) #recieve target from steppper process
+    while 1:
+        target = pp.receive(source=0) #recieve target from stepper process
         if position > target:
             pi.write(dirPin,1)
             pi.write(enPin,0)
@@ -140,5 +140,5 @@ if rank == 1:
             position -= 1
         else:
             time.sleep(1/speed)
-        
+
 pp.finalize() #close paralell processes
