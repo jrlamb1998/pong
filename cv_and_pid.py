@@ -148,9 +148,9 @@ pulley radius = 14 mm
     e3 = 0
 
     #PID gains
-    kp = 2
-    ki = 2
-    kd = 2
+    kp = 0.06
+    ki = 0.0002
+    kd = 0.05
 
     #calculate discrete time coefficients
     k1 = kp+ki+kd
